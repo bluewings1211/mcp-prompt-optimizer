@@ -1,0 +1,14 @@
+{
+  "epics": [],
+  "completed_epics": 0,
+  "total_epics": 0,
+  "project_completion": 0,
+  "current_epic": null,
+  "last_updated": "",
+  "story_statistics": {
+    "total_stories": 0,
+    "completed_stories": 0,
+    "in_progress_stories": 0,
+    "pending_stories": 0
+  }
+}

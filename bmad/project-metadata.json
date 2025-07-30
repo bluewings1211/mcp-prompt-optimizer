@@ -1,0 +1,26 @@
+{
+  "project_info": {
+    "name": "",
+    "description": "",
+    "type": "greenfield",
+    "created_at": "",
+    "last_activity": "",
+    "estimated_duration": null
+  },
+  "team_info": {
+    "project_lead": "",
+    "team_size": 1,
+    "development_model": "solo"
+  },
+  "bmad_config": {
+    "methodology_version": "4.33.0",
+    "workflow_type": "greenfield-fullstack",
+    "quality_gates_enabled": true,
+    "auto_progression": true
+  },
+  "external_integrations": {
+    "ai_ui_tools": [],
+    "deployment_platforms": [],
+    "monitoring_tools": []
+  }
+}
