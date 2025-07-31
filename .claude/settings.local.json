@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(rm:*)"
+      "Bash(ls:*)",
+      "Bash(source:*)",
+      "Bash(python:*)",
+      "edit",
+      "Bash(find:*)"
     ],
     "deny": []
   }

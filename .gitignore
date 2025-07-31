@@ -1,3 +1,20 @@
 __pycache__/
 ai_docs/
 CLAUDE.md
+
+# Development environments
+venv/
+.cursor/
+.gemini/
+.vscode/
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+
+# Temporary test and setup scripts
+test_*.py
+*_test.py
+setup_*.py
+validate_*.py
