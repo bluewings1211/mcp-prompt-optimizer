@@ -5,7 +5,8 @@
       "Bash(source:*)",
       "Bash(python:*)",
       "edit",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(pip install:*)"
     ],
     "deny": []
   }

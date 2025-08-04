@@ -1,14 +1,52 @@
 {
-  "epics": [],
-  "completed_epics": 0,
-  "total_epics": 0,
-  "project_completion": 0,
-  "current_epic": null,
-  "last_updated": "",
+  "epics": [
+    "epic_01_automated_dspy_optimization",
+    "epic_02_learning_adaptation_advanced"
+  ],
+  "completed_epics": 1,
+  "total_epics": 2,
+  "project_completion": 50,
+  "current_epic": "epic_02_learning_adaptation_advanced",
+  "last_updated": "2025-08-04T00:00:00Z",
+  "epic_details": {
+    "epic_01_automated_dspy_optimization": {
+      "status": "completed",
+      "completion_date": "2025-07-31T00:00:00Z",
+      "stories": [
+        {
+          "id": "story_1.1_signature_detection",
+          "status": "completed",
+          "qa_score": 100
+        },
+        {
+          "id": "story_1.2_one_click_optimization", 
+          "status": "completed",
+          "qa_score": 92
+        }
+      ],
+      "overall_qa_score": 96
+    },
+    "epic_02_learning_adaptation_advanced": {
+      "status": "stories_ready",
+      "stories": [
+        {
+          "id": "story_2.1_example_mining",
+          "status": "draft",
+          "estimated_hours": 44
+        },
+        {
+          "id": "story_2.2_module_compilation",
+          "status": "draft", 
+          "estimated_hours": 46
+        }
+      ],
+      "total_estimated_hours": 90
+    }
+  },
   "story_statistics": {
-    "total_stories": 0,
-    "completed_stories": 0,
+    "total_stories": 4,
+    "completed_stories": 2,
     "in_progress_stories": 0,
-    "pending_stories": 0
+    "pending_stories": 2
   }
 }

@@ -31,6 +31,9 @@ from dspy_integration import (
 # Import smart example mining system
 from smart_example_mining import SmartExampleMiner
 
+# Import DSPy example mining system (Task 2.1.1)
+from dspy_example_miner import DSPyExampleMiner
+
 # Import performance optimization system
 from performance_optimization import OptimizationPerformanceManager
 
@@ -358,7 +361,10 @@ class OneClickDSPyOptimizer:
         self.signature_detector = DSPySignatureDetector()
         self.performance_tracker = StrategyPerformanceMonitor("optimization_data.db")
         
-        # Initialize smart example mining system (Task 1.2.3)
+        # Initialize DSPy example mining system (Task 2.1.1) 
+        self.dspy_example_miner = DSPyExampleMiner("optimization_data.db")
+        
+        # Initialize smart example mining system (Task 1.2.3) - kept for fallback
         self.example_miner = SmartExampleMiner("optimization_data.db")
         
         # Initialize performance optimization and caching system (Task 1.2.4)
@@ -447,13 +453,33 @@ class OneClickDSPyOptimizer:
             # Phase 1: Intelligent Strategy Detection
             strategy_result = await self.signature_detector.detect_signature(prompt, user_preferences)
             
-            # Phase 2: Smart example mining (Task 1.2.3)
-            examples = await self.example_miner.get_optimal_examples(
-                task_type=strategy_result.task_type,
-                quality_threshold=0.7,
-                diversity_target=0.7,
-                max_examples=5
-            )
+            # Phase 2: DSPy example mining (Task 2.1.1) with fallback to smart mining
+            try:
+                examples = await self.dspy_example_miner.mine_examples(
+                    task_type=strategy_result.task_type,
+                    min_quality=0.7,  # Reduced from 0.8 for more examples
+                    max_examples=5
+                )
+                
+                # Fallback to smart example mining if DSPy mining yields too few examples
+                if len(examples) < 2:
+                    logger.info("DSPy mining yielded few examples, using smart mining fallback")
+                    fallback_examples = await self.example_miner.get_optimal_examples(
+                        task_type=strategy_result.task_type,
+                        quality_threshold=0.6,
+                        diversity_target=0.7,
+                        max_examples=5
+                    )
+                    examples.extend(fallback_examples[:3])  # Add up to 3 fallback examples
+                    
+            except Exception as e:
+                logger.warning(f"DSPy example mining failed, using smart mining fallback: {e}")
+                examples = await self.example_miner.get_optimal_examples(
+                    task_type=strategy_result.task_type,
+                    quality_threshold=0.6,
+                    diversity_target=0.7,
+                    max_examples=5
+                )
             
             # Phase 3: Apply DSPy-style optimization
             optimized_prompt = await self._apply_dspy_optimization(
@@ -557,7 +583,17 @@ class OneClickDSPyOptimizer:
         if examples:
             enhanced += "\n\nExamples:"
             for i, example in enumerate(examples[:2], 1):
-                if isinstance(example, dict):
+                if hasattr(example, 'example'):
+                    # Handle DSPy ExampleWithMetrics format
+                    example_data = {
+                        'input': example.example.input_text,
+                        'output': example.example.output_text,
+                        'source': example.source
+                    }
+                    example_text = self._format_example(example_data)
+                    quality_score = example.quality_score
+                    enhanced += f"\n\nExample {i} (Quality: {quality_score:.1f}):\n{example_text}"
+                elif isinstance(example, dict):
                     # Handle smart mining format vs. basic format
                     example_data = example.get('data', example)
                     example_text = self._format_example(example_data)
